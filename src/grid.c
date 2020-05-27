@@ -46,7 +46,7 @@ void grid__draw(Grid g, WINDOW *wnd) {
 
 void grid__add_snake(Grid g, Snake s) {
     Position snake_pos = snake__get_pos(s);
-    if (snake_pos.x >= 0 && snake_pos.x < g->width && snake_pos.y > 0 &&
+    if (snake_pos.x >= 0 && snake_pos.x < g->width && snake_pos.y >= 0 &&
         snake_pos.y < g->height) {
         g->cells[snake_pos.y][snake_pos.x] = SNAKE_HEAD;
     }
