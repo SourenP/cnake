@@ -10,6 +10,8 @@ enum Input {
     INPUT_RIGHT
 };
 
+typedef enum Input Input;
+
 typedef struct position {
     int x, y;
 } Position;

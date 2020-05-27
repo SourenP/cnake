@@ -1,11 +1,11 @@
-PROG = cnake
 CC = clang
+PROG = cnake
 
 include common.mk
 
-CXXFLAGS += -g -fsanitize=address -std=c99
+CFLAGS += -g -fsanitize=address -std=c99
 LDFLAGS += -lncurses
 
 # linking the program.
 $(PROG): $(OBJS)
-	$(CC) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)

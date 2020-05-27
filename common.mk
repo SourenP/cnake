@@ -6,6 +6,7 @@ vpath %.h $(SEARCHPATH)
 
 DEPS += defs.h structs.h
 
+_OBJS += uicurses.o
 _OBJS += snake.o
 _OBJS += grid.o
 _OBJS += game.o
@@ -19,7 +20,7 @@ all: $(PROG)
 # compiling other source files.
 $(OUT)/%.o: %.c %.h $(DEPS)
 	@mkdir -p $(OUT)
-	$(CC) $(CFLAGS) $(CXXFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 # cleaning everything that can be automatically recreated with "make".
 clean:
