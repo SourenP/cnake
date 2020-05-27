@@ -4,15 +4,20 @@
 #include "game.h"
 
 #include "common.h"
+#include "defs.h"
+#include "grid.h"
 
 WINDOW *wnd;
+Grid grid;
 
 int game__init() {
-    wnd = initscr();
+    initscr();
     cbreak();
     noecho();
     clear();
     refresh();
+    wnd = newwin(GAME_HEIGHT + 2 * BORDER_THICKNESS, GAME_WIDTH + 2 * BORDER_THICKNESS, 0, 0);
+    box(wnd, '|', '-');
     keypad(wnd, true);
     nodelay(wnd, true);
     curs_set(0);
@@ -25,51 +30,57 @@ int game__init() {
 
     start_color();
 
-    attron(A_BOLD);
-    box(wnd, 0, 0);
-    attroff(A_BOLD);
+    // attron(A_BOLD);
+    // box(wnd, 0, 0);
+    // attroff(A_BOLD);
 
-    // init_pair(1, COLOR_BLACK, COLOR_WHITE);
-    // wbkgd(wnd, COLOR_PAIR(1));
+    init_pair(1, COLOR_BLACK, COLOR_CYAN);
+    wbkgd(wnd, COLOR_PAIR(1));
 
     return 0;
 }
 
 void game__run() {
-
-    bool exit_requested = false;
-
-    // test draw
-    move(5, 5);
-    addch('h');
+    int input = INPUT_NONE;
+    grid = grid__create(GAME_WIDTH, GAME_HEIGHT, '*');
 
     while (1) {
-        int in_char = wgetch(wnd);
-        switch (in_char) {
-            case 'q':
-                exit_requested = true;
-                break;
-            case KEY_UP:
-                break;
-            case KEY_DOWN:
-                break;
-            case KEY_LEFT:
-                break;
-            case KEY_RIGHT:
-                break;
-            default:
-                break;
-        }
+        input = game__getInput();
+
+        game__draw();
 
         usleep(GAME_SLEEP);
         refresh();
 
-        if (exit_requested) {
+        if (input == INPUT_EXIT) {
             break;
         }
     }
 }
 
 void game__close() {
+    grid__destroy(grid);
     endwin();
+}
+
+enum Input game__getInput() {
+    int in_char = wgetch(wnd);
+    switch (in_char) {
+        case 'q':
+            return INPUT_EXIT;
+        case KEY_UP:
+            return INPUT_UP;
+        case KEY_DOWN:
+            return INPUT_DOWN;
+        case KEY_LEFT:
+            return INPUT_LEFT;
+        case KEY_RIGHT:
+            return INPUT_RIGHT;
+        default:
+            return INPUT_NONE;
+    }
+}
+
+void game__draw() {
+    grid__draw(grid, wnd);
 }

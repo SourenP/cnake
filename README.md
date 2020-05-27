@@ -1,6 +1,6 @@
 # cnake
 
-Snake terminal clone written in C99 and ncurses
+Snake terminal clone written in C99 with ncurses
 
 ## Build and Run
 
@@ -21,3 +21,4 @@ make clean
 ## Resources
 
 - [fundamelon: terminal-game-tutorial](https://github.com/fundamelon/terminal-game-tutorial)
+- [IC210: Keep it classy (or structy?) — a little fun with curses](https://www.usna.edu/Users/cs/wcbrown/courses/F16IC210/lab/l11/lab.html)
