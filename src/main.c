@@ -1,14 +1,10 @@
 #include "main.h"
 
 #include "game.h"
+#include "grid.h"
 
 int main(int argc, char *argv[]) {
-    int init_status = game__init();
-
-    if (init_status == 0)
-        game__run();
-
-    game__close();
-
-    return 0;
+    Game game = game__create(GAME_WIDTH, GAME_HEIGHT);
+    game__run(game);
+    game__destroy(game);
 }

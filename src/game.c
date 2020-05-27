@@ -8,23 +8,58 @@
 #include "grid.h"
 #include "snake.h"
 
-WINDOW *wnd;
-Grid grid;
-Snake snake;
-int input;
+struct game_type {
+    WINDOW *wnd;
+    Grid grid;
+    Snake snake;
+    int input;
+    int width;
+    int height;
+};
 
-int game__init() {
+Game game__create(int width, int height) {
+    Game game = calloc(1, sizeof(struct game_type));
+    game->width = width;
+    game->height = height;
+    assert(game != NULL);
+    game__init(game);
+    return game;
+}
+
+void game__run(Game game) {
+    while (1) {
+        game->input = game__get_input(game);
+
+        game__update(game);
+        game__draw(game);
+
+        usleep(GAME_SLEEP);
+        refresh();
+
+        if (game->input == INPUT_EXIT) {
+            break;
+        }
+    }
+
+    game__close(game);
+}
+
+void game__destroy(Game game) {
+    free(game);
+}
+
+int game__init(Game game) {
     // Init curses
     initscr();
     cbreak();
     noecho();
     clear();
     refresh();
-    wnd = newwin(GAME_HEIGHT + 2 * BORDER_THICKNESS,
-                 GAME_WIDTH + 2 * BORDER_THICKNESS, 0, 0);
-    box(wnd, '|', '-');
-    keypad(wnd, true);
-    nodelay(wnd, true);
+    game->wnd = newwin(game->height + 2 * BORDER_THICKNESS,
+                       game->width + 2 * BORDER_THICKNESS, 0, 0);
+    box(game->wnd, '|', '-');
+    keypad(game->wnd, true);
+    nodelay(game->wnd, true);
     curs_set(0);
 
     if (!has_colors()) {
@@ -40,42 +75,25 @@ int game__init() {
     // attroff(A_BOLD);
 
     init_pair(1, COLOR_BLACK, COLOR_CYAN);
-    wbkgd(wnd, COLOR_PAIR(1));
+    wbkgd(game->wnd, COLOR_PAIR(1));
 
     // Init game vars
-    input = INPUT_NONE;
-    grid = grid__create(GAME_WIDTH, GAME_HEIGHT, FLOOR);
-    snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, 0,
-                          SNAKE_HEAD, SNAKE_BODY);
+    game->input = INPUT_NONE;
+    game->grid = grid__create(game->width, game->height, FLOOR);
+    game->snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, 0,
+                                SNAKE_HEAD, SNAKE_BODY);
 
     return 0;
 }
 
-void game__run() {
-
-    while (1) {
-        input = game__get_input();
-
-        game__update();
-        game__draw();
-
-        usleep(GAME_SLEEP);
-        refresh();
-
-        if (input == INPUT_EXIT) {
-            break;
-        }
-    }
-}
-
-void game__close() {
-    grid__destroy(grid);
-    snake__destroy(snake);
+void game__close(Game game) {
+    grid__destroy(game->grid);
+    snake__destroy(game->snake);
     endwin();
 }
 
-enum Input game__get_input() {
-    int in_char = wgetch(wnd);
+enum Input game__get_input(Game game) {
+    int in_char = wgetch(game->wnd);
     switch (in_char) {
         case 'q':
             return INPUT_EXIT;
@@ -92,13 +110,13 @@ enum Input game__get_input() {
     }
 }
 
-void game__update() {
-    snake__apply_input(snake, input);
-    snake__update(snake);
+void game__update(Game game) {
+    snake__apply_input(game->snake, game->input);
+    snake__update(game->snake);
 }
 
-void game__draw() {
-    grid__fill(grid, FLOOR);
-    grid__add_snake(grid, snake);
-    grid__draw(grid, wnd);
+void game__draw(Game game) {
+    grid__fill(game->grid, FLOOR);
+    grid__add_snake(game->grid, game->snake);
+    grid__draw(game->grid, game->wnd);
 }
