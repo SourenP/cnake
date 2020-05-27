@@ -38,7 +38,18 @@ void grid__destroy(Grid g) {
 void grid__draw(Grid g, WINDOW *wnd) {
     for (int i = 0; i < g->height; i++) {
         for (int j = 0; j < g->width; j++) {
-            mvwaddch(wnd, i + BORDER_THICKNESS, j + BORDER_THICKNESS, g->cells[i][j]);
+            mvwaddch(wnd, i + BORDER_THICKNESS, j + BORDER_THICKNESS,
+                     g->cells[i][j]);
         }
     }
+}
+
+void grid__add_snake(Grid g, Snake s) {
+    Position snake_pos = snake__get_pos(s);
+    if (snake_pos.x >= 0 && snake_pos.x < g->width && snake_pos.y > 0 &&
+        snake_pos.y < g->height) {
+        g->cells[snake_pos.y][snake_pos.x] = SNAKE_HEAD;
+    }
+
+    // todo(sourenp): also draw body (nodes)
 }
