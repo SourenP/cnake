@@ -10,8 +10,8 @@
 #define GAME_SLEEP 160000
 
 /* Dimensions */
-#define GAME_WIDTH 31
-#define GAME_HEIGHT 15
+#define GAME_WIDTH 51
+#define GAME_HEIGHT 31
 #define BORDER_THICKNESS 1
 
 /* Player snake */

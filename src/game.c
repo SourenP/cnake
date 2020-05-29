@@ -3,6 +3,7 @@
 
 #include "game.h"
 
+#include "collision.h"
 #include "common.h"
 #include "curses_util.h"
 #include "defs.h"
@@ -21,11 +22,10 @@ struct Game {
     void *ctx;
     Input (*input)(void *ctx);
 
-    /* Grid */
+    /* State */
     Grid *grid;
-
-    /* Snake */
     Snake *snake;
+    GameStatus status;
 };
 
 Game *game__create(int width, int height) {
@@ -33,6 +33,7 @@ Game *game__create(int width, int height) {
     game->wnd = curses_init(width, height);
     game->width = width;
     game->height = height;
+    game->status = GAME_OK;
     assert(game != NULL);
     game__init(game);
     return game;
@@ -40,16 +41,16 @@ Game *game__create(int width, int height) {
 
 void game__run(Game *game) {
     while (1) {
-        GameStatus game_status = game__update(game);
-
-        if (game_status == GAME_EXIT) {
-            break;
-        }
+        game__update(game);
 
         game__draw(game);
 
         usleep(GAME_SLEEP);
         refresh();
+
+        if (game->status == GAME_EXIT) {
+            break;
+        }
     }
 
     game__close(game);
@@ -75,18 +76,42 @@ void game__close(Game *game) {
     snake__destroy(game->snake);
 }
 
-GameStatus game__update(Game *game) {
+void game__update(Game *game) {
+    /* Get and apply input */
     Input input = game->input(game->ctx);
+    game__apply_input(game, input);
+
+    // Exit early if game exit or over
+    if (game->status == GAME_EXIT || game->status == GAME_OVER) {
+        return;
+    }
+
+    /* Update game state */
+    snake__update(game->snake);
+    game__collisions(game);
+}
+
+void game__apply_input(Game *game, Input input) {
     if (input == INPUT_EXIT) {
-        return GAME_EXIT;
+        game->status = GAME_EXIT;
     }
     snake__apply_input(game->snake, input);
-    snake__update(game->snake);
-    return GAME_OK;
 }
 
 void game__draw(Game *game) {
     grid__fill(game->grid, FLOOR);
-    grid__add_snake(game->grid, game->snake);
+
+    if (game->status == GAME_OVER) {
+        grid__add_game_over(game->grid);
+    } else {
+        grid__add_snake(game->grid, game->snake);
+    }
+
     grid__draw(game->grid, game->wnd);
+}
+
+void game__collisions(Game *game) {
+    if (collision__out_of_bounds(game->snake, game->grid)) {
+        game->status = GAME_OVER;
+    }
 }

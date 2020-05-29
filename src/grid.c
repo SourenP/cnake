@@ -46,10 +46,25 @@ void grid__draw(Grid *g, WINDOW *wnd) {
 
 void grid__add_snake(Grid *g, Snake *s) {
     Position snake_pos = snake__get_pos(s);
-    if (snake_pos.x >= 0 && snake_pos.x < g->width && snake_pos.y >= 0 &&
-        snake_pos.y < g->height) {
+    if (grid__in_bounds(g, snake_pos)) {
         g->cells[snake_pos.y][snake_pos.x] = SNAKE_HEAD;
     }
 
     // todo(sourenp): also draw body (nodes)
+}
+
+bool grid__in_bounds(Grid *g, Position pos) {
+    if (pos.x >= 0 && pos.x < g->width && pos.y >= 0 && pos.y < g->height) {
+        return true;
+    }
+    return false;
+}
+
+void grid__add_game_over(Grid *g) {
+    static char game_over_str[] = "GAME OVER";
+    int vert_pos = g->height / 2;
+    int horz_pos = (g->width - strlen(game_over_str)) / 2;
+    for (int i = 0; i < strlen(game_over_str); i++) {
+        g->cells[vert_pos][horz_pos++] = game_over_str[i];
+    }
 }

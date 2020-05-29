@@ -9,6 +9,7 @@ DEPS += defs.h structs.h
 _OBJS += curses_util.o
 _OBJS += snake.o
 _OBJS += grid.o
+_OBJS += collision.o
 _OBJS += game.o
 _OBJS += main.o
 

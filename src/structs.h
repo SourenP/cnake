@@ -11,7 +11,7 @@ enum Input {
 };
 typedef enum Input Input;
 
-enum GameStatus { GAME_EXIT, GAME_OK };
+enum GameStatus { GAME_EXIT, GAME_OK, GAME_OVER };
 typedef enum GameStatus GameStatus;
 
 typedef struct position {
