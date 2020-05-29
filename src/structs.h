@@ -9,8 +9,10 @@ enum Input {
     INPUT_LEFT,
     INPUT_RIGHT
 };
-
 typedef enum Input Input;
+
+enum GameStatus { GAME_EXIT, GAME_OK };
+typedef enum GameStatus GameStatus;
 
 typedef struct position {
     int x, y;

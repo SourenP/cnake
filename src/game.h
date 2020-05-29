@@ -10,8 +10,8 @@ void game__run(Game *game);
 void game__destroy(Game *game);
 
 static void game__close(Game *game);
-static int game__init(Game *game);
-static bool game__update(Game *game);
+static void game__init(Game *game);
+static GameStatus game__update(Game *game);
 static void game__draw(Game *game);
 
 #endif // GAME_H_

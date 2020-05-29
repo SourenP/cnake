@@ -6,7 +6,7 @@ vpath %.h $(SEARCHPATH)
 
 DEPS += defs.h structs.h
 
-_OBJS += uicurses.o
+_OBJS += curses_util.o
 _OBJS += snake.o
 _OBJS += grid.o
 _OBJS += game.o

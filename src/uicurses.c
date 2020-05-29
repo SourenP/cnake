@@ -1,4 +1,4 @@
-#include "uicurses.h"
+#include "curses_util.h"
 
 #include "defs.h"
 
