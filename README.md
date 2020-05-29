@@ -36,7 +36,7 @@ make clean
   - [X] Head
   - [ ] Body
 - [ ] Collision
-  - [ ] Snake x Bounds
+  - [X] Snake x Bounds
   - [ ] Snake x Snake
   - [ ] Snake x Food
 - [ ] Spawn food
