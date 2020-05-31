@@ -11,7 +11,7 @@
 
 /* Dimensions */
 #define GAME_WIDTH 24
-#define GAME_HEIGHT 12
+#define GAME_HEIGHT 13
 #define BORDER_THICKNESS 1
 
 /* Food */
@@ -19,15 +19,16 @@
 
 /* Player snake */
 #define START_X ((int)GAME_WIDTH / 2)
-#define START_Y ((int)GAME_HEIGHT / 2)
-#define MAX_SNAKE_SIZE (GAME_WIDTH * GAME_HEIGHT)
+#define START_Y ((int)GAME_HEIGHT - 2)
 
 /* Rendered characters */
 #define SNAKE_HEAD '@'
-#define SNAKE_BODY '#'
+#define SNAKE_BODY '*'
+#define SNAKE_ATE '#'
 #define BORDER_TOP '-'
 #define BORDER_SIDE '|'
 #define FLOOR ' '
-#define FOOD_CHAR '*'
+#define FOOD_CHAR 'o'
+#define DIET_CHAR 'x'
 
 #endif // DEFS_H_

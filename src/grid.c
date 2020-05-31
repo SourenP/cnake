@@ -46,12 +46,21 @@ void grid__draw(Grid *g, WINDOW *wnd) {
 }
 
 void grid__add_snake(Grid *g, Snake *s) {
-    Position snake_pos = snake__get_pos(s);
-    if (grid__in_bounds(g, snake_pos)) {
-        g->cells[snake_pos.y][snake_pos.x] = SNAKE_HEAD;
+    const PositionNode *head = snake__get_head(s);
+
+    // Draw body
+    const PositionNode *curr = head->next;
+    while (curr != NULL) {
+        Position snake_pos = curr->pos;
+        if (grid__in_bounds(g, curr->pos)) {
+            g->cells[curr->pos.y][curr->pos.x] =
+                curr->has_food ? SNAKE_ATE : SNAKE_BODY;
+        }
+        curr = curr->next;
     }
 
-    // todo(sourenp): also draw body (nodes)
+    // Draw head
+    g->cells[head->pos.y][head->pos.x] = SNAKE_HEAD;
 }
 
 void grid__add_food(Grid *g, Food *f) {

@@ -1,6 +1,8 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
+#include <stdbool.h>
+
 enum Input {
     INPUT_NONE,
     INPUT_EXIT,
@@ -20,6 +22,7 @@ typedef struct position {
 
 struct PositionNode {
     Position pos;
+    bool has_food;
     struct PositionNode *next;
 };
 typedef struct PositionNode PositionNode;

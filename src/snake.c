@@ -1,48 +1,33 @@
 #include "snake.h"
 
 struct Snake {
-    struct PositionNode *head;
-    Position pos;
+    PositionNode *head;
     int dx, dy;
 };
 
 Snake *snake__create(Position pos, int dx, int dy) {
     Snake *s = hisho_ff__alloc(sizeof(struct Snake));
     assert(s != NULL);
-    s->head = NULL;
-    s->pos = pos;
+    s->head = hisho_ff__alloc(sizeof(PositionNode));
+    assert(s->head != NULL);
+    s->head->has_food = false;
+    s->head->pos = pos;
+    s->head->next = NULL;
+    snake__push(s, (Position){pos.x, pos.y + 1});
     s->dx = dx;
     s->dy = dy;
     return s;
 }
 
 void snake__destroy(Snake *s) {
-    snake__make_empty(s);
+    PositionNode *curr = s->head;
+    PositionNode *next;
+    while (curr != NULL) {
+        next = curr->next;
+        hisho_ff__free(curr);
+        curr = next;
+    }
     hisho_ff__free(s);
-}
-
-void snake__make_empty(Snake *s) {
-    while (!snake__is_empty(s)) {
-        snake__pop(s);
-    }
-}
-
-bool snake__is_empty(Snake *s) {
-    return snake__size(s) == 0;
-}
-
-size_t snake__size(Snake *s) {
-    struct PositionNode *n = s->head;
-    if (n == NULL) {
-        return 0;
-    }
-
-    size_t count = 1;
-    while (n->next != NULL) {
-        count++;
-        n = n->next;
-    }
-    return count;
 }
 
 bool snake__push(Snake *s, Position pos) {
@@ -53,51 +38,44 @@ bool snake__push(Snake *s, Position pos) {
         return false;
     }
 
-    // Populate
-    new_node->pos = pos;
-    new_node->next = s->head;
-
-    // Swap head
-    s->head = new_node;
-
-    return true;
-}
-
-Position snake__pop(Snake *s) {
-    if (snake__is_empty(s)) {
-        printf("*** Snake underflow; program terminated. ***\n");
-        exit(EXIT_FAILURE);
+    PositionNode *curr = s->head;
+    while (curr->next != NULL) {
+        curr = curr->next;
     }
 
-    struct PositionNode *old_head = s->head;
-    Position out = old_head->pos;
-    s->head = old_head->next;
-    hisho_ff__free(old_head);
+    new_node->has_food = false;
+    new_node->pos = pos;
+    new_node->next = NULL;
+    curr->next = new_node;
 
-    return out;
-}
-
-const Position snake__get_pos(Snake *s) {
-    return s->pos;
+    return true;
 }
 
 void snake__apply_input(Snake *s, Input input) {
     switch (input) {
         case INPUT_UP:
-            s->dx = 0;
-            s->dy = -1;
+            if (s->dy != 1) {
+                s->dx = 0;
+                s->dy = -1;
+            }
             break;
         case INPUT_DOWN:
-            s->dx = 0;
-            s->dy = 1;
+            if (s->dy != -1) {
+                s->dx = 0;
+                s->dy = 1;
+            }
             break;
         case INPUT_LEFT:
-            s->dx = -1;
-            s->dy = 0;
+            if (s->dx != 1) {
+                s->dx = -1;
+                s->dy = 0;
+            }
             break;
         case INPUT_RIGHT:
-            s->dx = 1;
-            s->dy = 0;
+            if (s->dx != -1) {
+                s->dx = 1;
+                s->dy = 0;
+            }
             break;
         default:
             break;
@@ -105,13 +83,38 @@ void snake__apply_input(Snake *s, Input input) {
 }
 
 void snake__update(Snake *s) {
-    // move head
-    s->pos.x += s->dx;
-    s->pos.y += s->dy;
 
-    // todo(sourenp): also move body (nodes)
+    // move body
+    PositionNode *prev = s->head;
+    PositionNode *curr = prev->next;
+    Position move_to = prev->pos;
+    bool food_to = prev->has_food;
+    while (curr != NULL) {
+        Position temp_pos = curr->pos;
+        bool temp_food = curr->has_food;
+        curr->pos = move_to;
+        curr->has_food = food_to;
+        if (curr->has_food) {
+            prev->has_food = false;
+        }
+        move_to = temp_pos;
+        food_to = temp_food;
+        prev = curr;
+        curr = curr->next;
+    }
+    if (food_to) {
+        snake__push(s, move_to);
+    }
+
+    // move head
+    s->head->pos.x += s->dx;
+    s->head->pos.y += s->dy;
 }
 
 const PositionNode *snake__get_head(Snake *s) {
     return (const PositionNode *)s->head;
+}
+
+void snake__ate(Snake *s) {
+    s->head->has_food = true;
 }

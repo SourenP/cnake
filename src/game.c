@@ -5,9 +5,7 @@
 #include <unistd.h>
 
 #include "collision.h"
-#include "common.h"
 #include "curses_util.h"
-#include "defs.h"
 #include "food.h"
 #include "grid.h"
 #include "snake.h"
@@ -70,7 +68,7 @@ void game__init(Game *game) {
     game->ctx = game->wnd;
     game->input = curses_input;
     game->grid = grid__create(game->width, game->height, FLOOR);
-    game->snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, 0);
+    game->snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, -1);
     game->food = food__create(game->width, game->height);
 }
 
@@ -93,7 +91,6 @@ void game__update(Game *game) {
     /* Update game state */
     snake__update(game->snake);
     game__collisions(game);
-
     food__spawn(game->food, snake__get_head(game->snake));
 }
 
@@ -123,7 +120,7 @@ void game__collisions(Game *game) {
     }
     int eaten_food_i = collision__snake_food(game->snake, game->food);
     if (eaten_food_i >= 0) {
-        fprintf(stderr, "eaten %d", eaten_food_i);
+        snake__ate(game->snake);
         food__remove(game->food, eaten_food_i);
     }
 }

@@ -1,7 +1,7 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include "structs.h"
+#include "common.h"
 
 typedef struct Game Game;
 
