@@ -1,8 +1,10 @@
 # cnake
 
-Snake terminal clone written in C99 with ncurses
-
-**Development Status**: _WIP_ (see [Todo](#todo))
+Terminal snake that uses a custom memory allocator.
+- Written in C99
+- Uses ncurses for rendering
+- Uses my custom memory allocator [hisho](https://github.com/SourenP/hisho)
+- Written for learning purposes
 
 ## Build and Run
 
@@ -43,3 +45,4 @@ make clean
   - [ ] Snake x Food
 - [ ] Spawn food
 - [ ] Track score
+- [X] Use custom memory allocator
