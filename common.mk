@@ -1,11 +1,13 @@
 OUT = bin
 
 SEARCHPATH += src
+SEARCHPATH += include/hisho/src
 vpath %.c $(SEARCHPATH)
 vpath %.h $(SEARCHPATH)
 
-DEPS += defs.h structs.h
+DEPS += defs.h structs.h hisho_ff.h
 
+_OBJS += hisho_ff.o
 _OBJS += curses_util.o
 _OBJS += snake.o
 _OBJS += grid.o

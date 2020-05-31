@@ -29,7 +29,7 @@ struct Game {
 };
 
 Game *game__create(int width, int height) {
-    Game *game = calloc(1, sizeof(struct Game));
+    Game *game = hisho_ff__alloc(sizeof(struct Game));
     game->wnd = curses_init(width, height);
     game->width = width;
     game->height = height;
@@ -58,7 +58,7 @@ void game__run(Game *game) {
 
 void game__destroy(Game *game) {
     curses_terminate(game->wnd);
-    free(game);
+    hisho_ff__free(game);
 }
 
 void game__init(Game *game) {

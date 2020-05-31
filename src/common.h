@@ -11,4 +11,6 @@
 #include "defs.h"
 #include "structs.h"
 
+#include "../include/hisho/src/hisho_ff.h"
+
 #endif // COMMON_H

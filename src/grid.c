@@ -6,12 +6,13 @@ struct Grid {
 };
 
 Grid *grid__create(size_t width, size_t height, char fill_char) {
-    Grid *g = malloc(sizeof(struct Grid));
+    Grid *g = (Grid *)hisho_ff__alloc(sizeof(struct Grid));
     assert(g != NULL);
-    g->cells = (char **)calloc(height, sizeof(char *));
+    g->cells = (char **)hisho_ff__alloc(height * sizeof(char *));
+    // g->cells = (char **)calloc(height, sizeof(char *));
     assert(g->cells != NULL);
     for (int i = 0; i < height; i++) {
-        g->cells[i] = (char *)calloc(width, sizeof(char));
+        g->cells[i] = (char *)hisho_ff__alloc(width * sizeof(char *));
     }
     g->width = width;
     g->height = height;
@@ -29,10 +30,10 @@ void grid__fill(Grid *g, char fill_char) {
 
 void grid__destroy(Grid *g) {
     for (int i = 0; i < g->height; i++) {
-        free(g->cells[i]);
+        hisho_ff__free(g->cells[i]);
     }
-    free(g->cells);
-    free(g);
+    hisho_ff__free(g->cells);
+    hisho_ff__free(g);
 }
 
 void grid__draw(Grid *g, WINDOW *wnd) {

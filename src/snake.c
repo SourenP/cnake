@@ -14,7 +14,7 @@ struct Snake {
 };
 
 Snake *snake__create(Position pos, int dx, int dy, char head, char body) {
-    Snake *s = malloc(sizeof(struct Snake));
+    Snake *s = hisho_ff__alloc(sizeof(struct Snake));
     assert(s != NULL);
     s->top = NULL;
     s->pos = pos;
@@ -27,7 +27,7 @@ Snake *snake__create(Position pos, int dx, int dy, char head, char body) {
 
 void snake__destroy(Snake *s) {
     snake__make_empty(s);
-    free(s);
+    hisho_ff__free(s);
 }
 
 void snake__make_empty(Snake *s) {
@@ -56,7 +56,7 @@ size_t snake__size(Snake *s) {
 
 bool snake__push(Snake *s, Position pos) {
     // Allocate
-    struct node *new_node = malloc(sizeof(struct node));
+    struct node *new_node = hisho_ff__alloc(sizeof(struct node));
     if (new_node == NULL) {
         return false;
     }
@@ -80,7 +80,7 @@ Position snake__pop(Snake *s) {
     struct node *old_top = s->top;
     Position out = old_top->pos;
     s->top = old_top->next;
-    free(old_top);
+    hisho_ff__free(old_top);
 
     return out;
 }
