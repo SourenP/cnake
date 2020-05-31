@@ -121,4 +121,9 @@ void game__collisions(Game *game) {
     if (collision__out_of_bounds(game->snake, game->grid)) {
         game->status = GAME_OVER;
     }
+    int eaten_food_i = collision__snake_food(game->snake, game->food);
+    if (eaten_food_i >= 0) {
+        fprintf(stderr, "eaten %d", eaten_food_i);
+        food__remove(game->food, eaten_food_i);
+    }
 }

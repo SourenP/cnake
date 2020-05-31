@@ -20,11 +20,17 @@ void food__spawn(Food *f, const PositionNode *invalid_positions);
 /**
  * @return Positions of food
  */
-const Position *food__get_positions(Food *food);
+const Position *food__get_positions(Food *f);
 
 /**
  * @return Food positions count
  */
-size_t food__get_count(Food *food);
+size_t food__get_count(Food *f);
+
+/**
+ * Remove food by index.
+ * @param i Index of food to remove
+ */
+void food__remove(Food *f, int i);
 
 #endif // FOOD_H_

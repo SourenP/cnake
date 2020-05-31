@@ -7,15 +7,15 @@
 #define nelem(a) (sizeof(a) / sizeof(a[0]))
 
 /* Game loop */
-#define GAME_SLEEP 160000
+#define GAME_SLEEP 140000
 
 /* Dimensions */
-#define GAME_WIDTH 51
-#define GAME_HEIGHT 31
+#define GAME_WIDTH 24
+#define GAME_HEIGHT 12
 #define BORDER_THICKNESS 1
 
 /* Food */
-#define MAX_FOOD (GAME_WIDTH * GAME_HEIGHT)
+#define MAX_FOOD 4
 
 /* Player snake */
 #define START_X ((int)GAME_WIDTH / 2)

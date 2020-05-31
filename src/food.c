@@ -35,10 +35,17 @@ void food__spawn(Food *f, const PositionNode *invalid_positions) {
     }
 }
 
-const Position *food__get_positions(Food *food) {
-    return (const Position *)(food->positions);
+const Position *food__get_positions(Food *f) {
+    return (const Position *)(f->positions);
 }
 
-size_t food__get_count(Food *food) {
-    return food->n_food;
+size_t food__get_count(Food *f) {
+    return f->n_food;
+}
+
+void food__remove(Food *f, int i) {
+    for (int x = i; x < f->n_food - 1; x++) {
+        f->positions[x] = f->positions[x + 1];
+    }
+    f->n_food--;
 }

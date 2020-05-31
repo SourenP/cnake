@@ -34,7 +34,7 @@ make clean
   - [ ] Snake
     - [X] Head
     - [ ] Body
-  - [ ] Food
+  - [X] Food
   - [X] Game over
 - [ ] Move snake
   - [X] Head
@@ -42,7 +42,6 @@ make clean
 - [ ] Collision
   - [X] Snake x Bounds
   - [ ] Snake x Snake
-  - [ ] Snake x Food
-- [ ] Spawn food
-- [ ] Track score
+  - [X] Snake x Food
+- [X] Spawn food
 - [X] Use custom memory allocator

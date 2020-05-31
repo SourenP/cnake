@@ -77,7 +77,7 @@ Position snake__pop(Snake *s) {
     return out;
 }
 
-Position snake__get_pos(Snake *s) {
+const Position snake__get_pos(Snake *s) {
     return s->pos;
 }
 
