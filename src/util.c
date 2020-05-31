@@ -1,10 +1,14 @@
 #include "util.h"
 
-bool contains(Position *positions, size_t size, Position pos) {
-    for (int i = 0; i < size; i++) {
-        if (positions[i].x == pos.x && positions[i].y == pos.y) {
+bool contains(const PositionNode *position_nodes, Position pos) {
+    const PositionNode *curr_node = position_nodes;
+    Position curr_pos;
+    while (curr_node != NULL) {
+        curr_pos = curr_node->pos;
+        if (curr_pos.x == pos.x && curr_pos.y == pos.y) {
             return true;
         }
+        curr_node = curr_node->next;
     }
     return false;
 }

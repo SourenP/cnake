@@ -19,14 +19,14 @@ void food__destroy(Food *f) {
     hisho_ff__free(f);
 }
 
-void food__spawn(Food *f, Position *invalid, size_t n_invalid) {
+void food__spawn(Food *f, const PositionNode *invalid_positions) {
     static size_t max_iter = GAME_WIDTH * GAME_HEIGHT;
     if (f->n_food < MAX_FOOD) {
         size_t count = 0;
         while (count < max_iter) {
             Position pos =
                 (Position){.x = (rand() % f->width), .y = (rand() % f->height)};
-            if (!contains(invalid, n_invalid, pos)) {
+            if (!contains(invalid_positions, pos)) {
                 f->positions[f->n_food++] = pos;
                 return;
             }

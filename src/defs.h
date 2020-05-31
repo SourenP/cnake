@@ -15,7 +15,7 @@
 #define BORDER_THICKNESS 1
 
 /* Food */
-#define MAX_FOOD 4
+#define MAX_FOOD (GAME_WIDTH * GAME_HEIGHT)
 
 /* Player snake */
 #define START_X ((int)GAME_WIDTH / 2)

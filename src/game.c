@@ -70,8 +70,7 @@ void game__init(Game *game) {
     game->ctx = game->wnd;
     game->input = curses_input;
     game->grid = grid__create(game->width, game->height, FLOOR);
-    game->snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, 0,
-                                SNAKE_HEAD, SNAKE_BODY);
+    game->snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, 0);
     game->food = food__create(game->width, game->height);
 }
 
@@ -95,7 +94,7 @@ void game__update(Game *game) {
     snake__update(game->snake);
     game__collisions(game);
 
-    food__spawn(game->food, NULL, 0);
+    food__spawn(game->food, snake__get_head(game->snake));
 }
 
 void game__apply_input(Game *game, Input input) {

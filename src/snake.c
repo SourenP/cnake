@@ -1,27 +1,18 @@
 #include "snake.h"
 
-struct node {
-    Position pos;
-    struct node *next;
-};
-
 struct Snake {
-    struct node *top;
+    struct PositionNode *head;
     Position pos;
     int dx, dy;
-    char head;
-    char body;
 };
 
-Snake *snake__create(Position pos, int dx, int dy, char head, char body) {
+Snake *snake__create(Position pos, int dx, int dy) {
     Snake *s = hisho_ff__alloc(sizeof(struct Snake));
     assert(s != NULL);
-    s->top = NULL;
+    s->head = NULL;
     s->pos = pos;
     s->dx = dx;
     s->dy = dy;
-    s->head = head;
-    s->body = body;
     return s;
 }
 
@@ -41,7 +32,7 @@ bool snake__is_empty(Snake *s) {
 }
 
 size_t snake__size(Snake *s) {
-    struct node *n = s->top;
+    struct PositionNode *n = s->head;
     if (n == NULL) {
         return 0;
     }
@@ -56,17 +47,18 @@ size_t snake__size(Snake *s) {
 
 bool snake__push(Snake *s, Position pos) {
     // Allocate
-    struct node *new_node = hisho_ff__alloc(sizeof(struct node));
+    struct PositionNode *new_node =
+        hisho_ff__alloc(sizeof(struct PositionNode));
     if (new_node == NULL) {
         return false;
     }
 
     // Populate
     new_node->pos = pos;
-    new_node->next = s->top;
+    new_node->next = s->head;
 
-    // Swap top
-    s->top = new_node;
+    // Swap head
+    s->head = new_node;
 
     return true;
 }
@@ -77,10 +69,10 @@ Position snake__pop(Snake *s) {
         exit(EXIT_FAILURE);
     }
 
-    struct node *old_top = s->top;
-    Position out = old_top->pos;
-    s->top = old_top->next;
-    hisho_ff__free(old_top);
+    struct PositionNode *old_head = s->head;
+    Position out = old_head->pos;
+    s->head = old_head->next;
+    hisho_ff__free(old_head);
 
     return out;
 }
@@ -118,4 +110,8 @@ void snake__update(Snake *s) {
     s->pos.y += s->dy;
 
     // todo(sourenp): also move body (nodes)
+}
+
+const PositionNode *snake__get_head(Snake *s) {
+    return (const PositionNode *)s->head;
 }

@@ -6,6 +6,9 @@
 
 #include "common.h"
 
-bool contains(Position *positions, size_t size, Position pos);
+/**
+ * @return True if linked list of PositionNodes contains pos value
+ */
+bool contains(const PositionNode *position_nodes, Position pos);
 
 #endif // UTIL_H_

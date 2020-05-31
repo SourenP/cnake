@@ -18,4 +18,10 @@ typedef struct position {
     int x, y;
 } Position;
 
+struct PositionNode {
+    Position pos;
+    struct PositionNode *next;
+};
+typedef struct PositionNode PositionNode;
+
 #endif

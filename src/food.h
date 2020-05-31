@@ -15,7 +15,7 @@ void food__destroy(Food *f);
  * @param food Food
  * @param invalid Array of invalid positions for food to spawn
  */
-void food__spawn(Food *f, Position *invalid, size_t n_invalid);
+void food__spawn(Food *f, const PositionNode *invalid_positions);
 
 /**
  * @return Positions of food
