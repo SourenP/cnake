@@ -1,0 +1,3 @@
+[submodule "include/hisho"]
+	path = include/hisho
+	url = https://github.com/SourenP/hisho
