@@ -2,6 +2,8 @@
 
 Snake terminal clone written in C99 with ncurses
 
+**Development Status**: _WIP_ (see [Todo](#todo))
+
 ## Build and Run
 
 ```bash
