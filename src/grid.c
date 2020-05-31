@@ -54,6 +54,14 @@ void grid__add_snake(Grid *g, Snake *s) {
     // todo(sourenp): also draw body (nodes)
 }
 
+void grid__add_food(Grid *g, Food *f) {
+    const Position *food_pos = food__get_positions(f);
+    size_t n_food = food__get_count(f);
+    for (int i = 0; i < n_food; i++) {
+        g->cells[food_pos[i].y][food_pos[i].x] = FOOD_CHAR;
+    }
+}
+
 bool grid__in_bounds(Grid *g, Position pos) {
     if (pos.x >= 0 && pos.x < g->width && pos.y >= 0 && pos.y < g->height) {
         return true;

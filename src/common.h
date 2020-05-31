@@ -10,6 +10,7 @@
 
 #include "defs.h"
 #include "structs.h"
+#include "util.h"
 
 #include "../include/hisho/src/hisho_ff.h"
 

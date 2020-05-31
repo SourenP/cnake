@@ -14,15 +14,20 @@
 #define GAME_HEIGHT 31
 #define BORDER_THICKNESS 1
 
+/* Food */
+#define MAX_FOOD 4
+
 /* Player snake */
 #define START_X ((int)GAME_WIDTH / 2)
 #define START_Y ((int)GAME_HEIGHT / 2)
+#define MAX_SNAKE_SIZE (GAME_WIDTH * GAME_HEIGHT)
 
 /* Rendered characters */
 #define SNAKE_HEAD '@'
-#define SNAKE_BODY '*'
+#define SNAKE_BODY '#'
 #define BORDER_TOP '-'
 #define BORDER_SIDE '|'
 #define FLOOR ' '
+#define FOOD_CHAR '*'
 
 #endif // DEFS_H_

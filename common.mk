@@ -8,6 +8,8 @@ vpath %.h $(SEARCHPATH)
 DEPS += defs.h structs.h hisho_ff.h
 
 _OBJS += hisho_ff.o
+_OBJS += util.o
+_OBJS += food.o
 _OBJS += curses_util.o
 _OBJS += snake.o
 _OBJS += grid.o

@@ -1,12 +1,14 @@
-#include <ncurses.h>
-#include <unistd.h>
-
 #include "game.h"
+
+#include <ncurses.h>
+#include <time.h>
+#include <unistd.h>
 
 #include "collision.h"
 #include "common.h"
 #include "curses_util.h"
 #include "defs.h"
+#include "food.h"
 #include "grid.h"
 #include "snake.h"
 
@@ -23,9 +25,10 @@ struct Game {
     Input (*input)(void *ctx);
 
     /* State */
+    GameStatus status;
     Grid *grid;
     Snake *snake;
-    GameStatus status;
+    Food *food;
 };
 
 Game *game__create(int width, int height) {
@@ -62,18 +65,20 @@ void game__destroy(Game *game) {
 }
 
 void game__init(Game *game) {
-
     /* Init game */
+    srand(time(NULL));
     game->ctx = game->wnd;
     game->input = curses_input;
     game->grid = grid__create(game->width, game->height, FLOOR);
     game->snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, 0,
                                 SNAKE_HEAD, SNAKE_BODY);
+    game->food = food__create(game->width, game->height);
 }
 
 void game__close(Game *game) {
     grid__destroy(game->grid);
     snake__destroy(game->snake);
+    food__destroy(game->food);
 }
 
 void game__update(Game *game) {
@@ -89,6 +94,8 @@ void game__update(Game *game) {
     /* Update game state */
     snake__update(game->snake);
     game__collisions(game);
+
+    food__spawn(game->food, NULL, 0);
 }
 
 void game__apply_input(Game *game, Input input) {
@@ -104,6 +111,7 @@ void game__draw(Game *game) {
     if (game->status == GAME_OVER) {
         grid__add_game_over(game->grid);
     } else {
+        grid__add_food(game->grid, game->food);
         grid__add_snake(game->grid, game->snake);
     }
 
