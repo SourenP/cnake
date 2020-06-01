@@ -1,10 +1,10 @@
 # cnake
 
-Terminal snake that uses a custom memory allocator.
-- Written in C99
+Termnial snake written for learning purposes.
+- C99
 - Uses ncurses for rendering
 - Uses my custom memory allocator [hisho](https://github.com/SourenP/hisho)
-- Written for learning purposes
+
 
 ![cnake_demo](images/cnake_demo.gif)
 
