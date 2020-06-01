@@ -6,6 +6,8 @@ Terminal snake that uses a custom memory allocator.
 - Uses my custom memory allocator [hisho](https://github.com/SourenP/hisho)
 - Written for learning purposes
 
+![cnake_demo](images/cnake_demo.gif)
+
 ## Build and Run
 
 ```bash
