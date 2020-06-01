@@ -22,4 +22,12 @@ bool collision__out_of_bounds(Snake *s, Grid *g);
  */
 int collision__snake_food(Snake *s, Food *f);
 
+/**
+ * Check if snake head is colliding with itself.
+ *
+ * @param s Snake to check collision for.
+ * @return True if snake is colliding with its own body.
+ */
+bool collision__snake_snake(Snake *s);
+
 #endif // COLLISION_H_

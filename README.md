@@ -18,7 +18,8 @@ make clean
 
 ```bash
 make
-ASAN_OPTIONS=detect_leaks=1 ./cnake
+ASAN_OPTIONS=detect_leaks=1 ./cnake 2> err
+cat err
 make clean
 ```
 
@@ -29,19 +30,21 @@ make clean
 
 ## Todo
 
-- [ ] Draw
+- [X] Draw
   - [X] Grid
-  - [ ] Snake
+  - [X] Snake
     - [X] Head
-    - [ ] Body
+    - [X] Body
+    - [X] Food
   - [X] Food
+  - [ ] Score
   - [X] Game over
-- [ ] Move snake
+- [X] Move snake
   - [X] Head
-  - [ ] Body
-- [ ] Collision
+  - [X] Body
+- [X] Collision
   - [X] Snake x Bounds
-  - [ ] Snake x Snake
+  - [X] Snake x Snake
   - [X] Snake x Food
 - [X] Spawn food
 - [X] Use custom memory allocator

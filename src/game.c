@@ -115,9 +115,11 @@ void game__draw(Game *game) {
 }
 
 void game__collisions(Game *game) {
-    if (collision__out_of_bounds(game->snake, game->grid)) {
+    if (collision__out_of_bounds(game->snake, game->grid) ||
+        collision__snake_snake(game->snake)) {
         game->status = GAME_OVER;
     }
+
     int eaten_food_i = collision__snake_food(game->snake, game->food);
     if (eaten_food_i >= 0) {
         snake__ate(game->snake);
