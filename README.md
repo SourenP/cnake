@@ -37,8 +37,8 @@ make clean
     - [X] Body
     - [X] Food
   - [X] Food
-  - [ ] Score
   - [X] Game over
+  - [X] Score
 - [X] Move snake
   - [X] Head
   - [X] Body

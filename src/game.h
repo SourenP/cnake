@@ -5,20 +5,55 @@
 
 typedef struct Game Game;
 
-Game *game__create(int width, int height);
-void game__run(Game *game);
+Game *game__create();
 void game__destroy(Game *game);
 
-static void game__close(Game *game);
-static void game__init(Game *game);
-static void game__update(Game *game);
-static void game__draw(Game *game);
-void game__apply_input(Game *game, Input input);
+/**
+ * Run main game loop until game status is set to exit.
+ * Loop includes:
+ * - Update
+ * - Draw
+ * - Check exit
+ *
+ * @param game Game.
+ */
+void game__run(Game *game);
 
 /**
- * Detect and handle collisions. Update game status accordingly.
- * @param game Pointer to game.
+ * Initialize values of game.
+ * This must be called before game_run.
+ *
+ * @param game Game.
  */
-static void game__collisions(Game *game);
+void game__init(Game *game, int width, int height);
+
+/**
+ * Apply input and update game state correspondingly.
+ *
+ * @param game Game.
+ */
+static void _game__update(Game *game);
+
+/**
+ * Draw game state onto grid.
+ *
+ * @param game Game.
+ */
+static void _game__draw(Game *game);
+
+/**
+ * Apply input recieved from user to game state.
+ *
+ * @param game Game.
+ * @param input Input.
+ */
+static void _game__apply_input(Game *game, Input input);
+
+/**
+ * Detect and handle collisions. Update game state accordingly.
+ *
+ * @param game Game.
+ */
+static void _game__collisions(Game *game);
 
 #endif // GAME_H_

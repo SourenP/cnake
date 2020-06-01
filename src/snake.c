@@ -10,23 +10,29 @@ Snake *snake__create(Position pos, int dx, int dy) {
     assert(s != NULL);
     s->head = hisho_ff__alloc(sizeof(PositionNode));
     assert(s->head != NULL);
+
+    // Init values
     s->head->has_food = false;
     s->head->pos = pos;
     s->head->next = NULL;
-    snake__push(s, (Position){pos.x, pos.y + 1});
     s->dx = dx;
     s->dy = dy;
+    snake__push(s, (Position){pos.x - dy, pos.y - dx});
     return s;
 }
 
 void snake__destroy(Snake *s) {
     PositionNode *curr = s->head;
     PositionNode *next;
+
+    // Free nodes
     while (curr != NULL) {
         next = curr->next;
         hisho_ff__free(curr);
         curr = next;
     }
+
+    // Free snake
     hisho_ff__free(s);
 }
 
@@ -38,11 +44,13 @@ bool snake__push(Snake *s, Position pos) {
         return false;
     }
 
+    // Move to tail
     PositionNode *curr = s->head;
     while (curr->next != NULL) {
         curr = curr->next;
     }
 
+    // Assign
     new_node->has_food = false;
     new_node->pos = pos;
     new_node->next = NULL;
@@ -94,6 +102,7 @@ void snake__update(Snake *s) {
         bool temp_food = curr->has_food;
         curr->pos = move_to;
         curr->has_food = food_to;
+        // If food was passed, remove food from previous node
         if (curr->has_food) {
             prev->has_food = false;
         }
@@ -102,6 +111,7 @@ void snake__update(Snake *s) {
         prev = curr;
         curr = curr->next;
     }
+    // If food reached tail, add new node
     if (food_to) {
         snake__push(s, move_to);
     }
@@ -117,4 +127,14 @@ const PositionNode *snake__get_head(Snake *s) {
 
 void snake__ate(Snake *s) {
     s->head->has_food = true;
+}
+
+size_t snake__get_size(Snake *s) {
+    PositionNode *curr = s->head->next;
+    size_t score = 0;
+    while (curr != NULL) {
+        score++;
+        curr = curr->next;
+    }
+    return score;
 }

@@ -29,22 +29,25 @@ struct Game {
     Food *food;
 };
 
-Game *game__create(int width, int height) {
+Game *game__create() {
     Game *game = hisho_ff__alloc(sizeof(struct Game));
-    game->wnd = curses_init(width, height);
-    game->width = width;
-    game->height = height;
-    game->status = GAME_OK;
     assert(game != NULL);
-    game__init(game);
     return game;
+}
+
+void game__destroy(Game *game) {
+    grid__destroy(game->grid);
+    snake__destroy(game->snake);
+    food__destroy(game->food);
+    curses_terminate(game->wnd);
+    hisho_ff__free(game);
 }
 
 void game__run(Game *game) {
     while (1) {
-        game__update(game);
+        _game__update(game);
 
-        game__draw(game);
+        _game__draw(game);
 
         usleep(GAME_SLEEP);
         refresh();
@@ -53,35 +56,25 @@ void game__run(Game *game) {
             break;
         }
     }
-
-    game__close(game);
 }
 
-void game__destroy(Game *game) {
-    curses_terminate(game->wnd);
-    hisho_ff__free(game);
-}
-
-void game__init(Game *game) {
-    /* Init game */
-    srand(time(NULL));
+void game__init(Game *game, int width, int height) {
+    game->wnd = curses_init(width, height);
+    game->width = width;
+    game->height = height;
+    game->status = GAME_OK;
     game->ctx = game->wnd;
     game->input = curses_input;
     game->grid = grid__create(game->width, game->height, FLOOR);
     game->snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, -1);
     game->food = food__create(game->width, game->height);
+    srand(time(NULL));
 }
 
-void game__close(Game *game) {
-    grid__destroy(game->grid);
-    snake__destroy(game->snake);
-    food__destroy(game->food);
-}
-
-void game__update(Game *game) {
+void _game__update(Game *game) {
     /* Get and apply input */
     Input input = game->input(game->ctx);
-    game__apply_input(game, input);
+    _game__apply_input(game, input);
 
     // Exit early if game exit or over
     if (game->status == GAME_EXIT || game->status == GAME_OVER) {
@@ -90,22 +83,24 @@ void game__update(Game *game) {
 
     /* Update game state */
     snake__update(game->snake);
-    game__collisions(game);
+    _game__collisions(game);
     food__spawn(game->food, snake__get_head(game->snake));
 }
 
-void game__apply_input(Game *game, Input input) {
+void _game__apply_input(Game *game, Input input) {
     if (input == INPUT_EXIT) {
         game->status = GAME_EXIT;
     }
     snake__apply_input(game->snake, input);
 }
 
-void game__draw(Game *game) {
+void _game__draw(Game *game) {
     grid__fill(game->grid, FLOOR);
 
-    if (game->status == GAME_OVER) {
-        grid__add_game_over(game->grid);
+    if (game->status == GAME_EXIT) {
+        return;
+    } else if (game->status == GAME_OVER) {
+        grid__add_game_over(game->grid, game->snake);
     } else {
         grid__add_food(game->grid, game->food);
         grid__add_snake(game->grid, game->snake);
@@ -114,7 +109,7 @@ void game__draw(Game *game) {
     grid__draw(game->grid, game->wnd);
 }
 
-void game__collisions(Game *game) {
+void _game__collisions(Game *game) {
     if (collision__out_of_bounds(game->snake, game->grid) ||
         collision__snake_snake(game->snake)) {
         game->status = GAME_OVER;
