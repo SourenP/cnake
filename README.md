@@ -8,6 +8,11 @@ Termnial snake written for learning purposes.
 
 ![cnake_demo](images/cnake_demo.gif)
 
+## Controls
+
+- Move: `arrow keys`
+- Quit: `q`
+
 ## Build and Run
 
 ```bash
