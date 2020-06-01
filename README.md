@@ -1,7 +1,7 @@
 # cnake
 
 Termnial snake written for learning purposes.
-- C99
+- Written in C (99)
 - Uses ncurses for rendering
 - Uses my custom memory allocator [hisho](https://github.com/SourenP/hisho)
 
