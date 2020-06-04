@@ -27,33 +27,4 @@ void game__run(Game *game);
  */
 void game__init(Game *game, int width, int height);
 
-/**
- * Apply input and update game state correspondingly.
- *
- * @param game Game.
- */
-static void _game__update(Game *game);
-
-/**
- * Draw game state onto grid.
- *
- * @param game Game.
- */
-static void _game__draw(Game *game);
-
-/**
- * Apply input recieved from user to game state.
- *
- * @param game Game.
- * @param input Input.
- */
-static void _game__apply_input(Game *game, Input input);
-
-/**
- * Detect and handle collisions. Update game state accordingly.
- *
- * @param game Game.
- */
-static void _game__collisions(Game *game);
-
 #endif // GAME_H_

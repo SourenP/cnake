@@ -29,6 +29,35 @@ struct Game {
     Food *food;
 };
 
+/**
+ * Apply input and update game state correspondingly.
+ *
+ * @param game Game.
+ */
+static void _game__update(Game *game);
+
+/**
+ * Draw game state onto grid.
+ *
+ * @param game Game.
+ */
+static void _game__draw(Game *game);
+
+/**
+ * Apply input recieved from user to game state.
+ *
+ * @param game Game.
+ * @param input Input.
+ */
+static void _game__apply_input(Game *game, Input input);
+
+/**
+ * Detect and handle collisions. Update game state accordingly.
+ *
+ * @param game Game.
+ */
+static void _game__collisions(Game *game);
+
 Game *game__create() {
     Game *game = hisho_ff__alloc(sizeof(struct Game));
     assert(game != NULL);
