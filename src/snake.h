@@ -7,7 +7,6 @@
 #define SNAKE_H_
 
 #include "common.h"
-#include "structs.h"
 
 typedef struct Snake Snake;
 
@@ -27,6 +26,15 @@ void snake__destroy(Snake *s);
  * fails.
  */
 bool snake__push(Snake *s, Position pos);
+
+/**
+ * Remove node at the end of the snake.
+ * Only pop if snake size is > 1.
+ * Game design requires snake to always have a min of 1.
+ *
+ * @param s Snake
+ */
+void snake__pop(Snake *s);
 
 /**
  * Apply user input to snake. Changes direction of snake.
@@ -51,7 +59,7 @@ void snake__update(Snake *s);
  *
  * @param s Snake
  */
-void snake__ate(Snake *s);
+void snake__ate(Snake *s, FoodKind food_kind);
 
 /**
  * @return Pointer to snake head.

@@ -1,5 +1,7 @@
 #include "grid.h"
 
+#include "assert.h"
+
 struct Grid {
     size_t width, height;
     char **cells;
@@ -52,8 +54,8 @@ void grid__add_snake(Grid *g, Snake *s) {
     const PositionNode *curr = head->next;
     while (curr != NULL) {
         Position snake_pos = curr->pos;
-        g->cells[curr->pos.y][curr->pos.x] =
-            curr->has_food ? SNAKE_ATE : SNAKE_BODY;
+        g->cells[snake_pos.y][snake_pos.x] =
+            curr->food_kind != NO_FOOD ? SNAKE_ATE : SNAKE_BODY;
         curr = curr->next;
     }
 
@@ -63,9 +65,12 @@ void grid__add_snake(Grid *g, Snake *s) {
 
 void grid__add_food(Grid *g, Food *f) {
     const Position *food_pos = food__get_positions(f);
+    const FoodKind *food_kind = food__get_kinds(f);
     size_t n_food = food__get_count(f);
     for (int i = 0; i < n_food; i++) {
-        g->cells[food_pos[i].y][food_pos[i].x] = FOOD_CHAR;
+        assert(food_kind[i] != NO_FOOD);
+        g->cells[food_pos[i].y][food_pos[i].x] =
+            food_kind[i] == GROW ? GROW_FOOD_CHAR : SHRINK_FOOD_CHAR;
     }
 }
 

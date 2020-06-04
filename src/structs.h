@@ -20,9 +20,11 @@ typedef struct position {
     int x, y;
 } Position;
 
+typedef enum FoodKind { NO_FOOD, GROW, SHRINK, KIND_COUNT } FoodKind;
+
 struct PositionNode {
     Position pos;
-    bool has_food;
+    FoodKind food_kind;
     struct PositionNode *next;
 };
 typedef struct PositionNode PositionNode;

@@ -23,6 +23,11 @@ void food__spawn(Food *f, const PositionNode *invalid_positions);
 const Position *food__get_positions(Food *f);
 
 /**
+ * @return Kinds of food
+ */
+const FoodKind *food__get_kinds(Food *f);
+
+/**
  * @return Food positions count
  */
 size_t food__get_count(Food *f);
@@ -32,5 +37,10 @@ size_t food__get_count(Food *f);
  * @param i Index of food to remove
  */
 void food__remove(Food *f, int i);
+
+/**
+ * @return Kind of food at index i
+ */
+FoodKind food__get_kind(Food *f, int i);
 
 #endif // FOOD_H_

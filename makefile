@@ -3,7 +3,7 @@ PROG = cnake
 
 include common.mk
 
-CFLAGS += -g -fsanitize=address -std=c99
+CFLAGS += -Wall -g -fsanitize=address -std=c99
 LDFLAGS += -lncurses
 
 # linking the program.

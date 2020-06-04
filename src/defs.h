@@ -16,6 +16,7 @@
 
 /* Food */
 #define MAX_FOOD 4
+#define SHRINK_FOOD_PROB 0.2
 
 /* Player snake */
 #define START_X ((int)GAME_WIDTH / 2)
@@ -28,7 +29,7 @@
 #define BORDER_TOP '-'
 #define BORDER_SIDE '|'
 #define FLOOR ' '
-#define FOOD_CHAR 'o'
-#define DIET_CHAR 'x'
+#define GROW_FOOD_CHAR 'o'
+#define SHRINK_FOOD_CHAR 'x'
 
 #endif // DEFS_H_

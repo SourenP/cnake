@@ -8,10 +8,14 @@ Termnial snake written for learning purposes.
 
 ![cnake_demo](images/cnake_demo.gif)
 
-## Controls
+## Instrcutions
 
-- Move: `arrow keys`
-- Quit: `q`
+- Eating food `o` will make your snake grow and `x` will make it shrink.
+- Moving into your own tail or the boundaries will make you lose
+- Final score is your snake's size
+- Controls:
+    - Move: `arrow keys`
+    - Quit: `q`
 
 ## Build and Run
 

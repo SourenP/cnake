@@ -12,7 +12,7 @@ Snake *snake__create(Position pos, int dx, int dy) {
     assert(s->head != NULL);
 
     // Init values
-    s->head->has_food = false;
+    s->head->food_kind = NO_FOOD;
     s->head->pos = pos;
     s->head->next = NULL;
     s->dx = dx;
@@ -51,12 +51,29 @@ bool snake__push(Snake *s, Position pos) {
     }
 
     // Assign
-    new_node->has_food = false;
+    new_node->food_kind = NO_FOOD;
     new_node->pos = pos;
     new_node->next = NULL;
     curr->next = new_node;
 
     return true;
+}
+
+void snake__pop(Snake *s) {
+    if (snake__get_size(s) <= 1) {
+        return;
+    }
+
+    // Move to tail
+    PositionNode *prev;
+    PositionNode *curr = s->head;
+    while (curr->next != NULL) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    prev->next = NULL;
+    hisho_ff__free(curr);
 }
 
 void snake__apply_input(Snake *s, Input input) {
@@ -96,15 +113,15 @@ void snake__update(Snake *s) {
     PositionNode *prev = s->head;
     PositionNode *curr = prev->next;
     Position move_to = prev->pos;
-    bool food_to = prev->has_food;
+    FoodKind food_to = prev->food_kind;
     while (curr != NULL) {
         Position temp_pos = curr->pos;
-        bool temp_food = curr->has_food;
+        FoodKind temp_food = curr->food_kind;
         curr->pos = move_to;
-        curr->has_food = food_to;
+        curr->food_kind = food_to;
         // If food was passed, remove food from previous node
-        if (curr->has_food) {
-            prev->has_food = false;
+        if (curr->food_kind != NO_FOOD) {
+            prev->food_kind = NO_FOOD;
         }
         move_to = temp_pos;
         food_to = temp_food;
@@ -113,7 +130,11 @@ void snake__update(Snake *s) {
     }
     // If food reached tail, add new node
     if (food_to) {
-        snake__push(s, move_to);
+        if (food_to == GROW) {
+            snake__push(s, move_to);
+        } else if (food_to == SHRINK) {
+            snake__pop(s);
+        }
     }
 
     // move head
@@ -125,8 +146,8 @@ const PositionNode *snake__get_head(Snake *s) {
     return (const PositionNode *)s->head;
 }
 
-void snake__ate(Snake *s) {
-    s->head->has_food = true;
+void snake__ate(Snake *s, FoodKind food_kind) {
+    s->head->food_kind = food_kind;
 }
 
 size_t snake__get_size(Snake *s) {

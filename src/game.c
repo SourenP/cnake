@@ -117,7 +117,8 @@ void _game__collisions(Game *game) {
 
     int eaten_food_i = collision__snake_food(game->snake, game->food);
     if (eaten_food_i >= 0) {
-        snake__ate(game->snake);
+        FoodKind food_kind = food__get_kind(game->food, eaten_food_i);
+        snake__ate(game->snake, food_kind);
         food__remove(game->food, eaten_food_i);
     }
 }
