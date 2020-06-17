@@ -1,9 +1,10 @@
 # cnake
 
-Termnial snake written for learning purposes.
+Terminal snake written for learning purposes.
 - Written in C (99)
 - Uses ncurses for rendering
 - Uses my custom memory allocator [hisho](https://github.com/SourenP/hisho)
+  - The memory allocator is not optimized for this game, I simply used it as a test.
 
 
 ![cnake_demo](images/cnake_demo.gif)
