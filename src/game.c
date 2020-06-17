@@ -94,7 +94,7 @@ void game__init(Game *game, int width, int height) {
     game->status = GAME_OK;
     game->ctx = game->wnd;
     game->input = curses_input;
-    game->grid = grid__create(game->width, game->height, FLOOR);
+    game->grid = grid__create(game->width, game->height, FLOOR_TILE);
     game->snake = snake__create((Position){.x = START_X, .y = START_Y}, 0, -1);
     game->food = food__create(game->width, game->height);
     srand(time(NULL));
@@ -124,18 +124,18 @@ void _game__apply_input(Game *game, Input input) {
 }
 
 void _game__draw(Game *game) {
-    grid__fill(game->grid, FLOOR);
+    grid__fill(game->grid, FLOOR_TILE);
 
     if (game->status == GAME_EXIT) {
         return;
     } else if (game->status == GAME_OVER) {
-        grid__add_game_over(game->grid, game->snake);
+        curses_draw_game_over(game->wnd, game->width, game->height,
+                              snake__get_size(game->snake));
     } else {
         grid__add_food(game->grid, game->food);
         grid__add_snake(game->grid, game->snake);
+        grid__draw(game->grid, game->wnd);
     }
-
-    grid__draw(game->grid, game->wnd);
 }
 
 void _game__collisions(Game *game) {

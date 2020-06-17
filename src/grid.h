@@ -10,7 +10,7 @@
 
 typedef struct Grid Grid;
 
-Grid *grid__create(size_t width, size_t height, char fill_char);
+Grid *grid__create(size_t width, size_t height, TileType fill_tile);
 void grid__destroy(Grid *g);
 
 /**
@@ -19,7 +19,7 @@ void grid__destroy(Grid *g);
  * @param g Grid
  * @param fill_char Character to fill with
  */
-void grid__fill(Grid *g, char fill_char);
+void grid__fill(Grid *g, TileType fill_tile);
 
 /**
  * Draw grid characters onto ncurses grid.
@@ -54,14 +54,5 @@ void grid__add_food(Grid *g, Food *f);
  * @return True if position p is within grid bounds
  */
 bool grid__in_bounds(Grid *g, Position p);
-
-/**
- * Draw game over and score onto grid.
- * Score equal to snake size.
- *
- * @param g Grid
- * @param s Snake
- */
-void grid__add_game_over(Grid *g, Snake *s);
 
 #endif // GRID_H_

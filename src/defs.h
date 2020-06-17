@@ -16,20 +16,37 @@
 
 /* Food */
 #define MAX_FOOD 4
-#define SHRINK_FOOD_PROB 0.2
+#define SHRINK_FOOD_PROB 0.3
 
 /* Player snake */
 #define START_X ((int)GAME_WIDTH / 2)
 #define START_Y ((int)GAME_HEIGHT - 2)
 
 /* Rendered characters */
-#define SNAKE_HEAD '@'
-#define SNAKE_BODY '*'
-#define SNAKE_ATE '#'
-#define BORDER_TOP '-'
-#define BORDER_SIDE '|'
-#define FLOOR ' '
-#define GROW_FOOD_CHAR 'o'
-#define SHRINK_FOOD_CHAR 'x'
+static const char SNAKE_HEAD_CHAR = '@';
+static const char SNAKE_BODY_CHAR = '*';
+static const char SNAKE_ATE_CHAR = '#';
+static const char FLOOR_CHAR = ' ';
+static const char GROW_FOOD_CHAR = 'o';
+static const char SHRINK_FOOD_CHAR = 'x';
+static const char BORDER_TOP_CHAR = '-';
+static const char BORDER_SIDE_CHAR = '|';
+
+/* Grid Tiles */
+typedef enum TileType {
+    FLOOR_TILE,
+    GROW_FOOD_TILE,
+    SHRINK_FOOD_TILE,
+    SNAKE_HEAD_TILE,
+    SNAKE_BODY_TILE,
+    SNAKE_ATE_TILE,
+} TileType;
+
+static const char TileCharMap[] = {[FLOOR_TILE] = FLOOR_CHAR,
+                                   [GROW_FOOD_TILE] = GROW_FOOD_CHAR,
+                                   [SHRINK_FOOD_TILE] = SHRINK_FOOD_CHAR,
+                                   [SNAKE_HEAD_TILE] = SNAKE_HEAD_CHAR,
+                                   [SNAKE_BODY_TILE] = SNAKE_BODY_CHAR,
+                                   [SNAKE_ATE_TILE] = SNAKE_ATE_CHAR};
 
 #endif // DEFS_H_
