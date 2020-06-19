@@ -21,8 +21,21 @@ Terminal snake written for learning purposes.
 ## Build and Run
 
 ```bash
+// clone repo
+git clone --recurse-submodules git@github.com:SourenP/cnake.git
+
+// build dependency 
+cd include/hisho
 make
+
+// build cnake
+cd ../../
+make
+
+// run
 ./cnake
+
+// clean up
 make clean
 ```
 
